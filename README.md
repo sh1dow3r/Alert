@@ -1,2 +1,3 @@
-# housekeeping
-Housekeeping is a tool that automate Redteam initial/last activities during the engagement 
+# Alert
+
+Automation SIEM solution to detect and alert threats using ELK Stack and Graphana via ansible.
