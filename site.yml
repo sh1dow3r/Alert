@@ -1,8 +1,10 @@
 ---
-- hosts: ELK-Server 
+- hosts: ELK_1
   roles:
+          - SIEM_Server/pre_install
           - SIEM_Server/ElasticSearch
-  gather_facts: no
-
+          - SIEM_Server/LogStash
+          - SIEM_Server/Kabana
+  gather_facts: yes
 
 

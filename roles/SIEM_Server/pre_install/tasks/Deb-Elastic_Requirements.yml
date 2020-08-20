@@ -1,0 +1,28 @@
+- name: Add an Apt signing key for elastic 
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+  become: yes
+  become_method: sudo
+
+- name: Adding elastic apt repository
+  apt_repository: 
+    repo: 'deb https://artifacts.elastic.co/packages/7.x/apt stable main'
+    state: present 
+    filename: elastic 
+    update_cache: no
+  become: yes
+  become_method: sudo
+
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 #One day
+
+- name: Installing OpenJDK 8 Java
+  apt:
+    name: default-jre 
+    state: present
+  become: yes
