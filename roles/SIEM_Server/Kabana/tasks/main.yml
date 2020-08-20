@@ -1,0 +1,18 @@
+- name: Add an Apt signing key for elastic 
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: Adding elastic apt repository
+  apt_repository: 
+    repo: 'deb https://artifacts.elastic.co/packages/7.x/apt stable main'
+    state: present 
+    filename: elastic 
+    update_cache: yes
+
+
+- name: install Kabana
+  apt: 
+    name: elasticsearch
+    state: present
+    update_cache: yes

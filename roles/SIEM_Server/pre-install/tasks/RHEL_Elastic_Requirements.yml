@@ -1,0 +1,15 @@
+- name: Add an rpm signing key for elastic 
+  rpm_key:
+    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: Adding elastic yum repository
+  yum_repository: 
+    baseurl: 'https://artifacts.elastic.co/packages/7.x/yum'
+    state: present 
+    file: elastic 
+
+- name: install updates using yum
+  yum:
+    name: "*"
+    state: latest
