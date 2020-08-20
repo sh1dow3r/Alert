@@ -1,0 +1,9 @@
+---
+- hosts: linA 
+  roles:
+          - watershells
+        # - pfsense-ub 
+  gather_facts: no
+
+
+
