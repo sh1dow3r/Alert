@@ -1,0 +1,5 @@
+---
+- name: Add an Apt signing key for elastic 
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
