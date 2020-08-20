@@ -1,7 +1,7 @@
 ---
 - hosts: ELK-Server 
   roles:
-          - ELK-Stack
+          - SIEM_Server/ElasticSearch
   gather_facts: no
 
 
