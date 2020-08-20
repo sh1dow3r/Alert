@@ -1,8 +1,7 @@
 ---
-- hosts: linA 
+- hosts: ELK-Server 
   roles:
-          - watershells
-        # - pfsense-ub 
+          - ELK-Stack
   gather_facts: no
 
 
