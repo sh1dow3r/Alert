@@ -1,0 +1,17 @@
+- name: Restart - ElasticSearch
+  service:
+     name: elasticsearch
+     state: restarted
+     enabled: yes
+
+- name: Stop - ElasticSearch
+  service:
+    name: elasticsearch
+    state: stopped
+    enabled: yes
+
+- name: Start - ElasticSearch
+  service:
+    name: elasticsearch
+    state: started
+    enabled: yes

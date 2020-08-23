@@ -1,7 +1,10 @@
 ---
-- name: install elasticsearch
-  apt: 
-    name: elasticsearch
-    state: present
-    update_cache: yes
-  become: yes
+
+- name: include ElasticSearch install
+  include_tasks: ES-Install.yml
+  tags: ES-Install
+
+
+- name: include SSL configuration
+  include_tasks: SSL-Config
+  tags: SSL
