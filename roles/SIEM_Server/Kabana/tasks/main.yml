@@ -15,8 +15,8 @@
   - { regexp: '^#server.host:', line: 'server.host: {{ Kibana_IP }}' } 
   - { regexp: '^#server.name:', line: 'server.name: Alert' } 
   - { regexp: '^#elasticsearch.hosts', line: 'elasticsearch.hosts: [ https://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }} ]' }
-  - { regexp: '^#elasticsearch.username:', line: 'elasticsearch.username: {{ ElasticUser }} ]' }
-  - { regexp: '^#elasticsearch.password:', line: 'elasticsearch.password: {{ Elasticpassword }} ]' }
+  - { regexp: '^#elasticsearch.username:', line: 'elasticsearch.username: {{ ElasticUser }} ' }
+  - { regexp: '^#elasticsearch.password:', line: 'elasticsearch.password: {{ Elasticpassword }} ' }
   become: yes
   notify: Start - kibana
 
