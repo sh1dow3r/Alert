@@ -1,5 +1,7 @@
 ---
 - hosts: ELK_1
+  vars_files:
+    - vars.yml
   roles:
           - SIEM_Server/pre_install
           - SIEM_Server/ElasticSearch
