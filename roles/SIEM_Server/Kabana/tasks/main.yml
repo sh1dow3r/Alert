@@ -5,3 +5,16 @@
     update_cache: yes
   become: yes
 
+
+- name: Set IP address,
+  lineinfile:
+    dest: "{{ kibana_config_dir }}/kibana.yml"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+  - { regexp: '^#server.host:', line: 'server.host: {{ Kibana_IP }}' } 
+  - { regexp: '^#server.name:', line: 'server.name: Alert' } 
+  - { regexp: '^#elasticsearch.hosts', line: 'elasticsearch.hosts: [ https://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }} ]' }
+  become: yes
+  notify: Start - kibana
+

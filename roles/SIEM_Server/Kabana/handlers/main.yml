@@ -1,17 +1,18 @@
-- name: Restart - ElasticSearch
+- name: Restart - kibana
   service:
-     name: elasticsearch
+     name: kibana
      state: restarted
      enabled: yes
 
-- name: Stop - ElasticSearch
+- name: Stop - kibana
   service:
-    name: elasticsearch
+    name: kibana
     state: stopped
     enabled: yes
 
-- name: Start - ElasticSearch
+- name: Start - kibana
   service:
-    name: elasticsearch
+    name: kibana
     state: started
     enabled: yes
+    

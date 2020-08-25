@@ -4,7 +4,6 @@
   include_tasks: ES-Install.yml
   tags: ES-Install
 
-
 - name: include SSL configuration
-  include_tasks: SSL-Config
+  include_tasks: SSL-Config.yml
   tags: SSL
