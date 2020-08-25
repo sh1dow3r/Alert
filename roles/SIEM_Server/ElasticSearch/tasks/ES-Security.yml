@@ -2,7 +2,8 @@
 
 - name: Setting up bootstrap Password
   command: echo "{{ BOOTSTRAP_PASSWORD }}" | {{ es_home }}/bin/elasticsearch-keystore add "bootstrap.password" -x
+  notify: Restart - ElasticSearch
 
 
-- name: setting up password for elastic user
-  command: curl -uelastic:"{{ BOOTSTRAP_PASSWORD }}" -XPUT -H 'Content-Type:application/json' 'http://{{ Elasticsearch_IP }}:9200/_xpack/security/user/kibana/_password' -d '{ "password":"" }'
+# - name: setting up password for elastic user
+#   command: curl -uelastic:"{{ BOOTSTRAP_PASSWORD }}" -XPUT -H 'Content-Type:application/json' 'http://{{ Elasticsearch_IP }}:9200/_xpack/security/user/kibana/_password' -d '{ "password":"" }'

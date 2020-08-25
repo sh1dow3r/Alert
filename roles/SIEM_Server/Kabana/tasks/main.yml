@@ -6,7 +6,7 @@
   become: yes
 
 
-- name: Set IP address,
+- name: Set IP address
   lineinfile:
     dest: "{{ kibana_config_dir }}/kibana.yml"
     regexp: "{{ item.regexp }}"
@@ -15,6 +15,8 @@
   - { regexp: '^#server.host:', line: 'server.host: {{ Kibana_IP }}' } 
   - { regexp: '^#server.name:', line: 'server.name: Alert' } 
   - { regexp: '^#elasticsearch.hosts', line: 'elasticsearch.hosts: [ https://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }} ]' }
+  - { regexp: '^#elasticsearch.username:', line: 'elasticsearch.username: {{ ElasticUser }} ]' }
+  - { regexp: '^#elasticsearch.password:', line: 'elasticsearch.password: {{ Elasticpassword }} ]' }
   become: yes
   notify: Start - kibana
 

@@ -3,15 +3,19 @@
      name: elasticsearch
      state: restarted
      enabled: yes
+  become: yes
+     
 
 - name: Stop - ElasticSearch
   service:
     name: elasticsearch
     state: stopped
     enabled: yes
+  become: yes
 
 - name: Start - ElasticSearch
   service:
     name: elasticsearch
     state: started
     enabled: yes
+  become: yes

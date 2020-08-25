@@ -3,16 +3,18 @@
      name: kibana
      state: restarted
      enabled: yes
+  become: yes
 
 - name: Stop - kibana
   service:
     name: kibana
     state: stopped
     enabled: yes
+  become: yes
 
 - name: Start - kibana
   service:
     name: kibana
     state: started
     enabled: yes
-    
+  become: yes

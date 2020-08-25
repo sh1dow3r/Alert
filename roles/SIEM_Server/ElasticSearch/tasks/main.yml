@@ -7,3 +7,7 @@
 - name: include SSL configuration
   include_tasks: SSL-Config.yml
   tags: SSL
+
+- name: include ElasticSearch Security configuration
+  include_tasks: ES-Security.yml
+  tags: Security-users-password

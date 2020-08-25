@@ -11,6 +11,15 @@
   when: not stat_result.stat.exists
  
 
+- name: Copy cert to the proper location
+  copy:
+    src: '{{ es_home }}/elastic-certificates.p12'
+    dest: '{{ es_config_dir }}/elastic-certificates.p12'
+    remote_src: yes
+    mode: '0644'
+  become: yes
+
+
 - name: Set SSL config for elasticsearch 
   lineinfile:
     dest: "{{ es_config_dir }}/elasticsearch.yml"
