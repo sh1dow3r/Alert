@@ -1,0 +1,9 @@
+---
+#curl -XPUT -u elastic 'http://0.0.0.0:9200/_xpack/license?acknowledge=true' -H "Content-Type: application/json" -d @license.json
+
+- name: Activate ES basic license (with security authentication)
+  uri:
+    method: POST
+    url: "{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }}/_license/start_basic?acknowledge=true"
+    user: "{{ ElasticUser }}"
+    password: "{{ BOOTSTRAP_PASSWORD }}"

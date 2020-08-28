@@ -1,14 +1,24 @@
 ---
 
-- name: Check that the elastic-certificates.p12 exists
+- name: Check if elastic-CA.p12 exists
   stat:
-    path: /usr/share/elasticsearch/elastic-certificates.p12
-  register: stat_result
+    path: /usr/share/elasticsearch/elastic-CA.p12
+  register: stat_result1
 
-- name: create certificate for elastic 
+- name: create CA for elastic 
   become: yes
-  command:  '{{ es_home }}/bin/elasticsearch-certutil cert -out ./elastic-certificates.p12 -pass "" '
-  when: not stat_result.stat.exists
+  command:  '{{ es_home }}/bin/elasticsearch-certutil ca --out ./elastic-CA.p12 --pass "" '
+  when: not stat_result1.stat.exists
+
+- name: Check that the elastic-keystore.p12 exists
+  stat:
+    path: /usr/share/elasticsearch/elastic-keystore.p12
+  register: stat_result2
+
+- name: create cert for elastic 
+  become: yes
+  command:  '{{ es_home }}/bin/elasticsearch-certutil cert --ca ./elastic-CA.p12 --out ./elastic-keystore.p12 --pass "" '
+  when: not stat_result2.stat.exists
  
 
 - name: Copy cert to the proper location
@@ -26,9 +36,20 @@
     line: "{{ item.line }}"
   with_items:
     - { line: 'xpack.security.enabled: true' }
+    - { line: 'xpack.security.http.ssl.enabled: true'}
     - { line: 'xpack.security.transport.ssl.enabled: true' }
     - { line: 'xpack.security.transport.ssl.verification_mode: certificate' }
     - { line: 'xpack.security.transport.ssl.keystore.path: elastic-certificates.p12' }
     - { line: 'xpack.security.transport.ssl.truststore.path: elastic-certificates.p12' }
   become: yes
   notify: Restart - ElasticSearch
+
+
+xpack.security.http.ssl.enabled: true
+xpack.security.transport.ssl.enabled: true
+xpack.security.http.ssl.key: certs/node1.key
+xpack.security.http.ssl.certificate: certs/node1.crt
+xpack.security.http.ssl.certificate_authorities: certs/ca.crt
+xpack.security.transport.ssl.key: certs/node1.key
+xpack.security.transport.ssl.certificate: certs/node1.crt
+xpack.security.transport.ssl.certificate_authorities: certs/ca.crt

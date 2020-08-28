@@ -1,9 +1,66 @@
 ---
 
+
+- name: Set IP address, Port, Node name, Master node
+  lineinfile:
+    dest: "{{es_config_dir}}/elasticsearch.yml"
+    line: "{{ item.line }}"
+  with_items:
+    - { line: 'xpack.security.enabled: true' }
+    - { line: 'discovery.type: single-node' }
+  notify: Restart - ElasticSearch
+  become: yes
+
 - name: Setting up bootstrap Password
   command: echo "{{ BOOTSTRAP_PASSWORD }}" | {{ es_home }}/bin/elasticsearch-keystore add "bootstrap.password" -x
   notify: Restart - ElasticSearch
 
 
-# - name: setting up password for elastic user
-#   command: curl -uelastic:"{{ BOOTSTRAP_PASSWORD }}" -XPUT -H 'Content-Type:application/json' 'http://{{ Elasticsearch_IP }}:9200/_xpack/security/user/kibana/_password' -d '{ "password":"" }'
+- name: Making a super user "Alert"
+  command: "{{ es_home }}/bin/elasticsearch-users useradd {{ ProjectUser }} -p {{ ProjectPassword }} -r superuser"
+
+
+- name: Resetting elastic password
+  command: > 
+          curl -u {{ ProjectUser }}:{{ ProjectPassword }} -XPUT 'http://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }}/_xpack/security/user/elastic/_password?pretty' -H 'Content-Type: application/json' -d'
+          {
+            "password" : "{{ STANDARD_PASSWORD: }}" 
+            }'
+
+- name: Resetting kibana password
+  command: > 
+          curl -u {{ ProjectUser }}:{{ ProjectPassword }} -XPUT 'http://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }}/_xpack/security/user/kibana/_password?pretty' -H 'Content-Type: application/json' -d'
+          {
+            "password" : "{{ STANDARD_PASSWORD: }}" 
+            }'
+
+- name: Resetting apm_system password
+  command: > 
+          curl -u {{ ProjectUser }}:{{ ProjectPassword }} -XPUT 'http://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }}/_xpack/security/user/apm_system/_password?pretty' -H 'Content-Type: application/json' -d'
+          {
+            "password" : "{{ STANDARD_PASSWORD: }}" 
+            }'
+
+- name: Resetting logstash_system password
+  command: > 
+          curl -u {{ ProjectUser }}:{{ ProjectPassword }} -XPUT 'http://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }}/_xpack/security/user/logstash_system/_password?pretty' -H 'Content-Type: application/json' -d'
+          {
+            "password" : "{{ STANDARD_PASSWORD: }}" 
+            }'
+
+- name: Resetting remote_monitoring_user password
+  command: > 
+          curl -u {{ ProjectUser }}:{{ ProjectPassword }} -XPUT 'http://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }}/_xpack/security/user/remote_monitoring_user/_password?pretty' -H 'Content-Type: application/json' -d'
+          {
+            "password" : "{{ STANDARD_PASSWORD: }}" 
+            }'
+
+- name: Resetting beats_system password
+  command: > 
+          curl -u {{ ProjectUser }}:{{ ProjectPassword }} -XPUT 'http://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }}/_xpack/security/user/beats_system/_password?pretty' -H 'Content-Type: application/json' -d'
+          {
+            "password" : "{{ STANDARD_PASSWORD: }}" 
+            }'
+
+
+#TODO, use with_items to loop through user instead of individual command
