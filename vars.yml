@@ -1,7 +1,7 @@
 #Server vars
 #Elastic vars
 es_config_dir: '/etc/elasticsearch'
-es_home: '/usr/share/elasticsearch/'
+es_home: '/usr/share/elasticsearch'
 kibana_config_dir: '/etc/kibana'
 logstash_config_dir: '/etc/logstash'
 BOOTSTRAP_PASSWORD: 'AlertProject'
@@ -10,18 +10,19 @@ Node_Name: node-1
 
 
 # IP_Addresses
-Elasticsearch_IP: 10.0.1.1
+Elasticsearch_IP: 10.0.1.115
 Elasticsearch_PORT: 9200
-LogStash_IP: 10.0.1.1
-Kibana_IP: 10.0.1.1
+LogStash_IP: 10.0.1.115
+Kibana_IP: 10.0.1.115
 
 
 
 #Clients vars
 # ElasticSearch vars
 ElasticUser: "elastic"
-Elasticpassword: "Elastic"
-
+Elasticpassword: "AlertProject"
+ProjectUser: "Alert"
+ProjectPassword: "AlertProject"
 
 
 #how to put in a ansible role
