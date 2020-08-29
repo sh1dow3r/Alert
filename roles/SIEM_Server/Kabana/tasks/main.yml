@@ -12,11 +12,23 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
-  - { regexp: '^#server.host:', line: 'server.host: {{ Kibana_IP }}' } 
-  - { regexp: '^#server.name:', line: 'server.name: Alert' } 
-  - { regexp: '^#elasticsearch.hosts', line: 'elasticsearch.hosts: [ https://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }} ]' }
-  - { regexp: '^#elasticsearch.username:', line: 'elasticsearch.username: {{ ElasticUser }} ' }
-  - { regexp: '^#elasticsearch.password:', line: 'elasticsearch.password: {{ Elasticpassword }} ' }
+  - { regexp: 'server.host:', line: 'server.host: {{ Kibana_IP }}' }
+  - { regexp: 'server.port:', line: 'server.port: 5601' }
+  - { regexp: 'server.name:', line: 'server.name: Alert' } 
+  - { regexp: 'elasticsearch.hosts', line: 'elasticsearch.hosts: [ http://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }} ]' }
+  # - { regexp: 'elasticsearch.username:', line: 'elasticsearch.username: "kibana_system" ' }
+  # - { regexp: 'elasticsearch.password:', line: 'elasticsearch.password: "{{ STANDARD_PASSWORD }}" ' }
   become: yes
-  notify: Start - kibana
-
+  
+- name: More configs for xpack.security
+  lineinfile:
+    dest: "{{ kibana_config_dir }}/kibana.yml"
+    line: "{{ item.line }}"
+  with_items:
+    - { line: "xpack.security.enabled: true"   }
+    - { line: "xpack.monitoring.enabled: true" }
+    - { line: "xpack.monitoring.enabled: true" }
+    - { line: "xpack.monitoring.elasticsearch.username: kibana_system" }
+    - { line: "xpack.monitoring.elasticsearch.password: {{ STANDARD_PASSWORD }} " }
+  become: yes
+  notify: Restart - kibana

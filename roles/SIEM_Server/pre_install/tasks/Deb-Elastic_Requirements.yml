@@ -20,6 +20,11 @@
 #     upgrade: yes
 #     update_cache: yes
 #     cache_valid_time: 86400 #One day
+- name: Installing vim
+  apt:
+    name: vim
+    state: present
+  become: yes
 
 - name: Installing OpenJDK 8 Java
   apt:
@@ -27,7 +32,7 @@
     state: present
   become: yes
 
-- name: Installing OpenJDK 8 Java
+- name: Installing curl
   apt:
     name: curl 
     state: present
