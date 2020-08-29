@@ -16,6 +16,5 @@
     - { regexp: 'network.host:', line: 'network.host: {{ Elasticsearch_IP }}' }
     - { regexp: 'http.port:', line: 'http.port: {{ Elasticsearch_PORT }}' }
     - { regexp: 'node.name:', line: '#node.name: {{ Node_Name }}' }
-    - { regexp: 'cluster.initial_master_nodes:', line: 'cluster.initial_master_nodes: [" {{ Node_Name }} "]' }
-  notify: Start - ElasticSearch
+  notify: Restart - ElasticSearch
   become: yes
