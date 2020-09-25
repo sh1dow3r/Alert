@@ -27,6 +27,12 @@
   become: yes
   ignore_errors: yes
 
+- name: Start - ElasticSearch
+  service:
+    name: elasticsearch
+    state: started
+    enabled: yes
+  become: yes
 
 - name: Resetting elastic password
   uri:
