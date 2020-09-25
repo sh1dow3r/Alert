@@ -4,3 +4,41 @@
     state: present
     update_cache: yes
   become: yes
+
+
+- name: Set IP address
+  lineinfile:
+    dest: "{{ logstash_config_dir }}/logstash.yml"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+  - { regexp: '^# http.host: 127.0.0.1', line: 'http.host: {{ LogStash_IP }}' }
+  - { regexp: '^# http.port: 9600', line: 'http.port: 9600' }
+  - { regexp: 'node.name:', line: 'node.name: Alert' } 
+  - { regexp: 'elasticsearch.hosts', line: 'elasticsearch.hosts: [ http://{{ Elasticsearch_IP }}:{{ Elasticsearch_PORT }} ]' }
+  - { regexp: 'xpack.monitoring.enabled', line: 'xpack.monitoring.enabled: true' }
+  - { regexp: 'xpack.monitoring.elasticsearch.username', line: 'xpack.monitoring.elasticsearch.username: logstash_system' }
+  - { regexp: 'xpack.monitoring.elasticsearch.password', line: 'xpack.monitoring.elasticsearch.password: password {{ STANDARD_PASSWORD }}' }
+  become: yes
+  notify: Restart - logstash
+
+
+# - name: Creating keystore for logstash
+#   command: "{{ logstash_home }}/bin/logstash-keystore --path.settings /etc/logstash create"
+#   become: yes
+#   ignore_errors: yes
+#   environment:
+#     LOGSTASH_KEYSTORE_PASS: '{{ Elasticpassword }}'
+
+- name: Making elastic user for logstash
+  command: "echo -y | echo {{ ElasticUser }} | {{ logstash_home }}/bin/logstash-keystore --path.settings /etc/logstash add ES_USER"
+  become: yes
+  ignore_errors: yes
+  async: 10
+
+- name: Making a elastic password for logstash
+  command: "echo {{ Elasticpassword }} | {{ logstash_home }}/bin/logstash-keystore --path.settings /etc/logstash add ES_PWD"
+  become: yes
+  ignore_errors: yes
+
+
