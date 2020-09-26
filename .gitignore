@@ -1,3 +1,4 @@
 #local files/ testing
-inventory.ini
+Clients/inventory.ini
+SIEM_Server/inventory.ini
 .DS_Store
