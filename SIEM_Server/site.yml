@@ -1,0 +1,12 @@
+---
+- hosts: ELK_1
+  vars_files:
+    - vars.yml
+  roles:
+      - pre_install
+      - ElasticSearch
+      - LogStash
+      - Kabana
+  gather_facts: yes
+
+

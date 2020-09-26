@@ -1,0 +1,11 @@
+---
+- name: include Debian pre-req when distru is Ubuntu
+  include_tasks: Deb-Elastic_Requirements.yml
+  when: ansible_facts['os_family'] == "Debian"
+  tags: deb 
+
+
+- name: include RHEL pre-req when distru is CentOS
+  include_tasks: RHEL_Elastic_Requirements.yml
+  when: ansible_facts['os_family'] == "RedHat"
+  tags: RHEL

@@ -1,0 +1,20 @@
+---
+- name: install elasticsearch
+  apt: 
+    name: elasticsearch
+    state: present
+    update_cache: yes
+  become: yes
+
+
+- name: Set IP address, Port, Node name, Master node
+  lineinfile:
+    dest: "{{es_config_dir}}/elasticsearch.yml"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: 'network.host:', line: 'network.host: {{ Elasticsearch_IP }}' }
+    - { regexp: 'http.port:', line: 'http.port: {{ Elasticsearch_PORT }}' }
+    - { regexp: 'node.name:', line: '#node.name: {{ Node_Name }}' }
+  notify: Restart - ElasticSearch
+  become: yes
