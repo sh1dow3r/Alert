@@ -1,0 +1,9 @@
+---
+- hosts: ELK-Client1
+  vars_files:
+    - vars.yml
+  roles:
+      - #TODO
+  gather_facts: yes
+
+
