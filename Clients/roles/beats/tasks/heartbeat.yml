@@ -1,0 +1,32 @@
+---
+- name: copy heartbeat package if debian/Ubuntu
+  copy:
+    src: beats_nix/heartbeat-7.9.2-amd64.deb
+    dest: /tmp/heartbeat-7.9.2-amd64.deb
+  when: ansible_os_family == 'Debian' 
+
+- name: Install heartbeat if debian/Ubuntu
+  apt:
+    deb: /tmp/heartbeat-7.9.2-amd64.deb
+  become: yes
+  when: ansible_os_family == 'Debian' 
+
+
+- name: copy heartbeat package on CentOS/Redhat
+  copy:
+    src: beats_nix/heartbeat-7.9.2-x86_64.rpm
+    dest: /tmp/heartbeat-7.9.2-x86_64.rpm
+  when:  ansible_os_family == "RedHat"
+
+- name: install heartbeat if CentOS/Redhat
+  yum:
+    name: /tmp/heartbeat-7.9.2-x86_64.rpm
+  when:  ansible_os_family == "RedHat"
+
+
+- name: Copy template heartbeat and restart service
+  template:
+    dest: /etc/heartbeat/heartbeat.yml
+    src: beats_nix_templates/heartbeat.yml.j2
+  become: yes
+  notify: start - heartbeat

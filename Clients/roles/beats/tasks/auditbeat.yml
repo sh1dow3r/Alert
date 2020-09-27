@@ -1,0 +1,32 @@
+---
+- name: copy auditbeat package if debian/Ubuntu
+  copy:
+    src: beats_nix/auditbeat-7.9.2-amd64.deb
+    dest: /tmp/auditbeat-7.9.2-amd64.deb
+  when: ansible_os_family == 'Debian' 
+
+- name: Install auditbeat if debian/Ubuntu
+  apt:
+    deb: /tmp/auditbeat-7.9.2-amd64.deb
+  become: yes
+  when: ansible_os_family == 'Debian' 
+
+
+- name: copy auditbeat package on CentOS/Redhat
+  copy:
+    src: beats_nix/auditbeat-7.9.2-x86_64.rpm
+    dest: /tmp/auditbeat-7.9.2-x86_64.rpm
+  when:  ansible_os_family == "RedHat"
+
+- name: install auditbeat if CentOS/Redhat
+  yum:
+    name: /tmp/auditbeat-7.9.2-x86_64.rpm
+  when:  ansible_os_family == "RedHat"
+
+
+- name: Copy template auditbeat and restart service
+  template:
+    dest: /etc/auditbeat/auditbeat.yml
+    src: beats_nix_templates/auditbeat.yml.j2
+  become: yes
+  notify: start - auditbeat

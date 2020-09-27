@@ -1,0 +1,20 @@
+- name: start - filebeat
+  service:
+    name: filebeat
+    state: started
+
+- name: start - metricbeat
+  service:
+    name: metricbeat
+    state: started
+
+- name: start - packetbeat
+  service:
+    name: packetbeat
+    state: started
+
+- name: start - auditbeat
+  service:
+    name: auditbeat
+    state: started
+

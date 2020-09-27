@@ -1,0 +1,32 @@
+---
+- name: copy packetbeat package if debian/Ubuntu
+  copy:
+    src: beats_nix/packetbeat-7.9.2-amd64.deb
+    dest: /tmp/packetbeat-7.9.2-amd64.deb
+  when: ansible_os_family == 'Debian' 
+
+- name: Install packetbeat if debian/Ubuntu
+  apt:
+    deb: /tmp/packetbeat-7.9.2-amd64.deb
+  become: yes
+  when: ansible_os_family == 'Debian' 
+
+
+- name: copy packetbeat package on CentOS/Redhat
+  copy:
+    src: beats_nix/packetbeat-7.9.2-x86_64.rpm
+    dest: /tmp/packetbeat-7.9.2-x86_64.rpm
+  when:  ansible_os_family == "RedHat"
+
+- name: install packetbeat if CentOS/Redhat
+  yum:
+    name: /tmp/packetbeat-7.9.2-x86_64.rpm
+  when:  ansible_os_family == "RedHat"
+
+
+- name: Copy template packetbeat and restart service
+  template:
+    dest: /etc/packetbeat/packetbeat.yml
+    src: beats_nix_templates/packetbeat.yml.j2
+  become: yes
+  notify: start - packetbeat

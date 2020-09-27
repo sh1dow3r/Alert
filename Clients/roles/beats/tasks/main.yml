@@ -1,0 +1,30 @@
+---
+- name: include auditbeat 
+  include_tasks: auditbeat.yml
+  tags: auditbeat
+  when: 'auditbeat_install'
+
+- name: include filebeat 
+  include_tasks: filebeat.yml
+  tags: filebeat
+  when: 'filebeat_install'
+
+- name: include heartbeat 
+  include_tasks: heartbeat.yml
+  tags: heartbeat
+  when: 'heartbeat_install'
+
+- name: include metricbeat 
+  include_tasks: metricbeat.yml
+  tags: metricbeat
+  when: 'metricbeat_install'
+
+- name: include packetbeat 
+  include_tasks: packetbeat.yml
+  tags: packetbeat
+  when: 'packetbeat_install'
+
+- name: include winlogbeat 
+  include_tasks: winlogbeat.yml
+  tags: winlogbeat
+  when: 'winlogbeat_install'
