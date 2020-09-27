@@ -1,3 +1,18 @@
-#Client vars
-filebeat: true
+#Generic Client vars
+filebeat_install: true
+metricbeat_install: false
 
+
+#Filebeats vars
+filebeat_inputs:
+  - type: log
+    paths:
+      - "/var/log/*.log"
+
+filebeat_output_logstash_enabled: false
+filebeat_output_elasticsearch_enabled: true
+filebeat_output_elasticsearch_hosts:
+  - "10.0.1.115:9200"
+filebeat_ssl_certificate_file: false
+filebeat_elasticsearch_user: elastic
+filebeat_elasticsearch_password: AlertProject

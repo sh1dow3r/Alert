@@ -1,9 +1,9 @@
 ---
-- hosts: ELK-Client1
+- hosts: ELK_Client1
   vars_files:
     - vars.yml
   roles:
-      - #TODO
+      - beats
   gather_facts: yes
 
 
