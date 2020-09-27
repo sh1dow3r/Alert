@@ -3,25 +3,25 @@
   copy:
     src: beats_nix/filebeat-7.9.2-amd64.deb
     dest: /tmp/filebeat-7.9.2-amd64.deb
-  when: ansible_os_family == 'Debian' 
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Install filebeat if debian/Ubuntu
   apt:
     deb: /tmp/filebeat-7.9.2-amd64.deb
   become: yes
-  when: ansible_os_family == 'Debian' 
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 
 - name: copy filebeat package on CentOS/Redhat
   copy:
     src: beats_nix/filebeat-7.9.2-x86_64.rpm
     dest: /tmp/filebeat-7.9.2-x86_64.rpm
-  when:  ansible_os_family == "RedHat"
+  when:  ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: install filebeat if CentOS/Redhat
   yum:
     name: /tmp/filebeat-7.9.2-x86_64.rpm
-  when:  ansible_os_family == "RedHat"
+  when:  ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 
 - name: Copy template filebeat and restart service
