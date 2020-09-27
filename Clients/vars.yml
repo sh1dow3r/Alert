@@ -1,7 +1,10 @@
 #Generic Client vars
+auditbeat_install: false
 filebeat_install: true
+heartbeat_install: false
 metricbeat_install: false
-
+packetbeat_install: false
+winlogbeat_install: false
 
 #Filebeats vars
 filebeat_inputs:
